@@ -1,0 +1,13 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cxx: [g++, clang++]
+    steps:
+      - uses: actions/checkout@v4
+      - run: make test CXX=${{ matrix.cxx }}
+      - run: make asan CXX=${{ matrix.cxx }}
+      - run: make tsan CXX=${{ matrix.cxx }}
